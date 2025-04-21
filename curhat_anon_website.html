@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gausah takut cerita, YOLOin aja!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fdf6f0;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #d77a61;
+      text-align: center;
+      padding: 1rem;
+    }
+    form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      width: 90%;
+      max-width: 500px;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      width: 100%;
+      background: #ff9770;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ff774a;
+    }
+    .thanks {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #4caf50;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gausah takut cerita, YOLOin aja!</h1>
+  <form id="curhatForm" name="submit-to-google-sheet">
+    <label for="judul">Judul/tema curhatan:</label>
+    <input type="text" name="judul" id="judul" placeholder="(Opsional)" />
+
+    <label for="curhatan">Tulis curhatan kamu:</label>
+    <textarea name="curhatan" id="curhatan" rows="6" placeholder="Tulis semua yang kamu rasain di sini..." required></textarea>
+
+    <label for="mood">Mood kamu sekarang:</label>
+    <select name="mood" id="mood">
+      <option value="🙂 Biasa aja">🙂 Biasa aja</option>
+      <option value="😔 Sedih">😔 Sedih</option>
+      <option value="😡 Kesel">😡 Kesel</option>
+      <option value="😢 Pengen nangis">😢 Pengen nangis</option>
+      <option value="😊 Lumayan bahagia">😊 Lumayan bahagia</option>
+    </select>
+
+    <button type="submit">Kirim Cerita</button>
+  </form>
+  <div class="thanks" id="thanksMessage">Terima kasih udah cerita. Kamu nggak sendiri. ❤️</div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
+    const form = document.forms['submit-to-google-sheet'];
+    const thanks = document.getElementById('thanksMessage');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+          form.reset();
+          thanks.style.display = 'block';
+        })
+        .catch(error => console.error('Error!', error.message));
+    });
+  </script>
+</body>
+</html>
